@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "458675561262",
+    "project_id": "skycord-f8d2d",
+    "storage_bucket": "skycord-f8d2d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458675561262:android:e80d0b9d3ed33de2da90bf",
+        "android_client_info": {
+          "package_name": "com.example.sky_cord"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLar880PK-il1wo5bnAu9T9lRZgfjYV88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
