@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sky_cord/core/theme/app_theme.dart';
 
 class SkyCordApp extends StatelessWidget {
   const SkyCordApp({super.key});
@@ -8,6 +9,9 @@ class SkyCordApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "SkyCord",
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.system,
         home: Placeholder());
   }
 }
