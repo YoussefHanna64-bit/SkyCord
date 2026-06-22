@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/theme/app_theme.dart';
+import 'package:sky_cord/features/splash/splash_view.dart';
 
 class SkyCordApp extends StatelessWidget {
   const SkyCordApp({super.key});
@@ -12,6 +13,6 @@ class SkyCordApp extends StatelessWidget {
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.system,
-        home: Placeholder());
+        home: const SplashView());
   }
 }
