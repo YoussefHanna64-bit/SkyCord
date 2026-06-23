@@ -4,11 +4,11 @@ import 'package:sky_cord/core/utils/result.dart';
 import 'package:sky_cord/features/auth/domain/usecases/login_use_case.dart';
 import 'package:sky_cord/features/auth/domain/usecases/register_use_case.dart';
 
-class AuthProvider {
+class AppAuthProvider {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
 
-  AuthProvider(this._loginUseCase, this._registerUseCase);
+  AppAuthProvider(this._loginUseCase, this._registerUseCase);
 
   Future<Result<User?>> login(String email, String password) async {
     try {

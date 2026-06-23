@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sky_cord/core/di/dependency_injection.dart';
+import 'package:sky_cord/core/theme/app_colors.dart';
+import 'package:sky_cord/core/utils/result.dart';
 import 'package:sky_cord/core/utils/validators.dart';
 import 'package:sky_cord/core/widgets/custom_primary_button.dart';
 import 'package:sky_cord/core/widgets/custom_text_form_field.dart';
+import 'package:sky_cord/features/auth/presentation/provider/app_auth_provider.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -50,8 +55,30 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 16),
           CustomPrimaryButton(
             buttonText: "Sign Up",
-            onPressed: () {
-              if (_registerFormKey.currentState!.validate()) {}
+            onPressed: () async {
+              if (_registerFormKey.currentState!.validate()) {
+                Result<User?> authState =
+                    await getIt<AppAuthProvider>().register(
+                  _usernameController.text,
+                  _emailController.text,
+                  _passwordController.text,
+                );
+                if (!context.mounted) return;
+                if (authState.success) {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => ),
+                  // );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(authState.message ??
+                          "Something went wrong, Try again"),
+                      backgroundColor: AppColors.redColor,
+                    ),
+                  );
+                }
+              }
             },
           )
         ]));
