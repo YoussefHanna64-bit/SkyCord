@@ -21,11 +21,11 @@ class CustomRichText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
-        recognizer: TapGestureRecognizer()..onTap = onTap,
         text: normalText,
         style: normalTextStyle ?? AppTextStyles.medium14Grey,
         children: [
           TextSpan(
+            recognizer: TapGestureRecognizer()..onTap = onTap,
             text: styledText,
             style: styledTextStyle ?? AppTextStyles.bold14Primary,
           ),

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sky_cord/core/theme/app_icons.dart';
 import 'package:sky_cord/core/widgets/custom_rich_text.dart';
-import 'package:sky_cord/features/auth/presentation/views/register_view.dart';
-import 'package:sky_cord/features/auth/presentation/widgets/login_form.dart';
+import 'package:sky_cord/features/auth/presentation/views/login_view.dart';
+import 'package:sky_cord/features/auth/presentation/widgets/register_form.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +20,16 @@ class LoginView extends StatelessWidget {
               children: [
                 SvgPicture.asset(AppIcons.logo, width: 150),
                 SizedBox(height: 16),
-                LoginForm(),
+                RegisterForm(),
                 SizedBox(height: 32),
                 CustomRichText(
-                  normalText: "Don't have an account? ",
-                  styledText: "Sign Up",
+                  normalText: "Already have an account? ",
+                  styledText: "Login",
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RegisterView()),
+                          builder: (context) => const LoginView()),
                     );
                   },
                 ),
