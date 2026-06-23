@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sky_cord/core/models/app_user.dart';
+import 'package:sky_cord/core/services/firestore_service.dart';
 
 class AuthService {
   AuthService._();
@@ -33,9 +35,21 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       if (userCredential.user != null) {
-        await userCredential.user!.updateDisplayName(username);
+        final user = userCredential.user!;
 
-        await userCredential.user!.reload();
+        await user.updateDisplayName(username);
+
+        await user.reload();
+
+        final newUserModel = AppUser(
+          uid: user.uid,
+          username: username,
+          email: email,
+          phone: '',
+          pfp: null,
+        );
+
+        await FirestoreService.instance.setUserProfileData(newUserModel);
 
         return _auth.currentUser;
       }
