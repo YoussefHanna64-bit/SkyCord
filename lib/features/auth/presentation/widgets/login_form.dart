@@ -7,6 +7,7 @@ import 'package:sky_cord/core/utils/validators.dart';
 import 'package:sky_cord/core/widgets/custom_primary_button.dart';
 import 'package:sky_cord/core/widgets/custom_text_form_field.dart';
 import 'package:sky_cord/features/auth/presentation/provider/app_auth_provider.dart';
+import 'package:sky_cord/features/main_layout/presentation/views/main_layout_view.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -54,10 +55,11 @@ class _LoginFormState extends State<LoginForm> {
                 );
                 if (!context.mounted) return;
                 if (authState.success) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainLayoutView()),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
