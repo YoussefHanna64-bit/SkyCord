@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sky_cord/core/services/user_status_service.dart';
 import 'package:sky_cord/core/theme/app_colors.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
+import 'package:sky_cord/features/chat/presentation/views/chat_view.dart';
 
 class ChatCard extends StatelessWidget {
-  final String otherUserID;
+  final String otherUserId;
   final String username;
   final String lastMessage;
   final String time;
@@ -13,7 +14,7 @@ class ChatCard extends StatelessWidget {
 
   const ChatCard(
       {super.key,
-      required this.otherUserID,
+      required this.otherUserId,
       required this.username,
       required this.lastMessage,
       required this.time,
@@ -23,7 +24,7 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
     return StreamBuilder<DatabaseEvent>(
-      stream: UserStatusService.instance.getUserStatus(otherUserID),
+      stream: UserStatusService.instance.getUserStatus(otherUserId),
       builder: (context, snapshot) {
         bool isOnline = false;
         bool isTyping = false;
@@ -36,7 +37,17 @@ class ChatCard extends StatelessWidget {
         }
 
         return InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatView(
+                  otherUserId: otherUserId,
+                  username: username,
+                ),
+              ),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
