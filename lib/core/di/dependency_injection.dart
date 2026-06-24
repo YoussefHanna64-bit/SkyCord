@@ -11,7 +11,9 @@ import 'package:sky_cord/features/auth/presentation/provider/app_auth_provider.d
 import 'package:sky_cord/features/chat/data/datasources/chat_remote_data_source.dart';
 import 'package:sky_cord/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:sky_cord/features/chat/domain/repositories/chat_repository.dart';
+import 'package:sky_cord/features/chat/domain/usecases/get_messages_use_case.dart';
 import 'package:sky_cord/features/chat/domain/usecases/get_users_stream_use_case.dart';
+import 'package:sky_cord/features/chat/domain/usecases/send_message_use_case.dart';
 import 'package:sky_cord/features/chat/presentation/provider/chat_provider.dart';
 import 'package:sky_cord/features/profile/presentation/provider/profile_provider.dart';
 
@@ -58,8 +60,17 @@ void setupDependencies() {
     () => GetUsersStreamUseCase(getIt<ChatRepository>()),
   );
 
+  getIt.registerLazySingleton<SendMessageUseCase>(
+    () => SendMessageUseCase(getIt<ChatRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetMessagesUseCase>(
+    () => GetMessagesUseCase(getIt<ChatRepository>()),
+  );
+
   getIt.registerFactory<ChatProvider>(
-    () => ChatProvider(getIt<GetUsersStreamUseCase>()),
+    () => ChatProvider(getIt<GetUsersStreamUseCase>(),
+        getIt<SendMessageUseCase>(), getIt<GetMessagesUseCase>()),
   );
 
   getIt.registerFactory<ProfileProvider>(
