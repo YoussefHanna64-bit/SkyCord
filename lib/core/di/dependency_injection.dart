@@ -16,6 +16,11 @@ import 'package:sky_cord/features/chat/domain/usecases/get_messages_use_case.dar
 import 'package:sky_cord/features/chat/domain/usecases/get_users_stream_use_case.dart';
 import 'package:sky_cord/features/chat/domain/usecases/send_message_use_case.dart';
 import 'package:sky_cord/features/chat/presentation/provider/chat_provider.dart';
+import 'package:sky_cord/features/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:sky_cord/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:sky_cord/features/profile/domain/repositories/profile_repository.dart';
+import 'package:sky_cord/features/profile/domain/usecases/get_user_profile_use_case.dart';
+import 'package:sky_cord/features/profile/domain/usecases/update_user_profile_use_case.dart';
 import 'package:sky_cord/features/profile/presentation/provider/profile_provider.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -81,7 +86,27 @@ void setupDependencies() {
         getIt<GetChatRoomStreamUseCase>()),
   );
 
+  getIt.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSource(getIt<FirestoreService>()),
+  );
+
+  getIt.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>()),
+  );
+
+  getIt.registerLazySingleton<GetUserProfileUseCase>(
+    () => GetUserProfileUseCase(getIt<ProfileRepository>()),
+  );
+
+  getIt.registerLazySingleton<UpdateUserProfileUseCase>(
+    () => UpdateUserProfileUseCase(getIt<ProfileRepository>()),
+  );
+
   getIt.registerFactory<ProfileProvider>(
-    () => ProfileProvider(getIt<LogoutUseCase>()),
+    () => ProfileProvider(
+      getIt<LogoutUseCase>(),
+      getIt<GetUserProfileUseCase>(),
+      getIt<UpdateUserProfileUseCase>(),
+    ),
   );
 }
