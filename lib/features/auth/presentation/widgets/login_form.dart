@@ -55,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
                 );
                 if (!context.mounted) return;
                 if (authState.success) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const MainLayoutView()),

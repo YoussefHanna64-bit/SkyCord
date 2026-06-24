@@ -40,12 +40,12 @@ class _SplashViewState extends State<SplashView> {
   void _init() {
     Timer(Duration(seconds: 3), () {
       if (AuthService.instance.currentUser() != null) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainLayoutView()),
         );
       } else {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginView()),
         );

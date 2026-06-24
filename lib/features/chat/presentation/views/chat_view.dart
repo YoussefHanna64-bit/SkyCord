@@ -13,12 +13,14 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   final ChatProvider _chatProvider = getIt<ChatProvider>();
-
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chats", style: AppTextStyles.bold20Grey),
+        title: Text("Chats",
+            style: AppTextStyles.bold20Grey.copyWith(color: onSurface)),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
