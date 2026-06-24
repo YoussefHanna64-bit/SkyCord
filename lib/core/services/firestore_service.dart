@@ -83,4 +83,9 @@ class FirestoreService {
         .orderBy("timestamp", descending: false)
         .snapshots();
   }
+
+  Stream<DocumentSnapshot> getChatRoomStream(String userId, String otherUserId) {
+    String chatRoomId = getChatRoomId(userId, otherUserId);
+    return _firebaseFirestore.collection("chat_rooms").doc(chatRoomId).snapshots();
+  }
 }

@@ -4,4 +4,5 @@ abstract class ChatRepository {
   Stream<List<Map<String, dynamic>>> getUsersStream();
   Future<void> sendMessage(String receiverId, String message);
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId);
+  Stream<DocumentSnapshot> getChatRoomStream(String userId, String otherUserId);
 }

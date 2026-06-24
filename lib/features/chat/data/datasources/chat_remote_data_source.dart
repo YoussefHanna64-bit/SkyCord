@@ -17,4 +17,9 @@ class ChatRemoteDataSource {
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {
     return _firestoreService.getMessages(userId, otherUserId);
   }
+
+  Stream<DocumentSnapshot> getChatRoomStream(
+      String userId, String otherUserId) {
+    return _firestoreService.getChatRoomStream(userId, otherUserId);
+  }
 }

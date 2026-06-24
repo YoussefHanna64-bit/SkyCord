@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/theme/app_colors.dart';
+import 'package:sky_cord/core/theme/app_icons.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -53,7 +54,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixIcon: widget.obscureText
             ? IconButton(
                 icon: Icon(
-                  isSecure ? Icons.visibility_off : Icons.visibility,
+                  isSecure ? AppIcons.visibilityOff : AppIcons.visibility,
                   color: isSecure ? dividerColor : AppColors.primary,
                   size: 22,
                 ),

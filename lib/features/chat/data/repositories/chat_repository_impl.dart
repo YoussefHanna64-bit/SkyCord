@@ -21,4 +21,10 @@ class ChatRepositoryImpl implements ChatRepository {
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {
     return _remoteDataSource.getMessages(userId, otherUserId);
   }
+
+  @override
+  Stream<DocumentSnapshot> getChatRoomStream(
+      String userId, String otherUserId) {
+    return _remoteDataSource.getChatRoomStream(userId, otherUserId);
+  }
 }
