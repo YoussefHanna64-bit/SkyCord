@@ -41,4 +41,24 @@ class Validators {
     }
     return null;
   }
+
+  static String? phone(BuildContext context, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Phone number is required";
+    }
+    if (!RegExp(r'^\+?[0-9]{10,15}$').hasMatch(value.trim())) {
+      return "Please enter a valid phone number";
+    }
+    return null;
+  }
+
+  static String? url(BuildContext context, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "URL is required";
+    }
+    if (!RegExp(r'^https?://.+$').hasMatch(value.trim())) {
+      return "Please enter a valid URL";
+    }
+    return null;
+  }
 }

@@ -6,6 +6,7 @@ import 'package:sky_cord/core/utils/result.dart';
 import 'package:sky_cord/core/widgets/custom_primary_button.dart';
 import 'package:sky_cord/features/auth/presentation/views/login_view.dart';
 import 'package:sky_cord/features/profile/presentation/provider/profile_provider.dart';
+import 'package:sky_cord/features/profile/presentation/widgets/profile_form.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -29,34 +30,36 @@ class _ProfileViewState extends State<ProfileView> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              CustomPrimaryButton(
-                  buttonText: "Logout",
-                  fillColor: AppColors.redColor,
-                  onPressed: () async {
-                    Result<void> logoutState =
-                        await getIt<ProfileProvider>().logout();
-                    if (!context.mounted) return;
-                    if (logoutState.success) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginView()),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(logoutState.message ??
-                              "Something went wrong, Try again"),
-                          backgroundColor: AppColors.redColor,
-                        ),
-                      );
-                    }
-                  }),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ProfileForm(),
+                const SizedBox(height: 40),
+                CustomPrimaryButton(
+                    buttonText: "Logout",
+                    fillColor: AppColors.redColor,
+                    onPressed: () async {
+                      Result<void> logoutState =
+                          await getIt<ProfileProvider>().logout();
+                      if (!context.mounted) return;
+                      if (logoutState.success) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(logoutState.message ??
+                                "Something went wrong, Try again"),
+                            backgroundColor: AppColors.redColor,
+                          ),
+                        );
+                      }
+                    }),
+              ],
+            ),
           ),
         ),
       ),
