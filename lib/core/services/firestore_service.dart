@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/models/app_user.dart';
+import 'package:sky_cord/core/models/chat_message.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -39,5 +40,47 @@ class FirestoreService {
         return data;
       }).toList();
     });
+  }
+
+  String getChatRoomId(String userId1, String userId2) {
+    List<String> ids = [userId1, userId2];
+    ids.sort();
+    return ids.join("_");
+  }
+
+  Future<void> sendMessage(String receiverId, String message) async {
+    final String currentUserId = _auth.currentUser!.uid;
+    final Timestamp timestamp = Timestamp.now();
+
+    ChatMessage newMessage = ChatMessage(
+      senderId: currentUserId,
+      text: message,
+      timestamp: timestamp,
+    );
+
+    String chatRoomId = getChatRoomId(currentUserId, receiverId);
+
+    await _firebaseFirestore
+        .collection("chat_rooms")
+        .doc(chatRoomId)
+        .collection("messages")
+        .add(newMessage.toMap());
+
+    await _firebaseFirestore.collection("chat_rooms").doc(chatRoomId).set({
+      "participants": [currentUserId, receiverId],
+      "lastMessage": message,
+      "lastTimestamp": timestamp,
+    }, SetOptions(merge: true));
+  }
+
+  Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {
+    String chatRoomId = getChatRoomId(userId, otherUserId);
+
+    return _firebaseFirestore
+        .collection("chat_rooms")
+        .doc(chatRoomId)
+        .collection("messages")
+        .orderBy("timestamp", descending: false)
+        .snapshots();
   }
 }
