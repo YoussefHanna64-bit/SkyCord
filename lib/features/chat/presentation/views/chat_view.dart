@@ -78,14 +78,13 @@ class _ChatViewState extends State<ChatView> {
                 }
 
                 return ListView.builder(
-                  reverse: false,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final messageData =
                         messages[index].data() as Map<String, dynamic>;
-                    final isMe = messageData['senderId'] == currentUserId;
+                    final isMe = messageData["senderId"] == currentUserId;
 
-                    return ChatBubble(text: messageData['text'], isMe: isMe);
+                    return ChatBubble(text: messageData["text"], isMe: isMe);
                   },
                 );
               },

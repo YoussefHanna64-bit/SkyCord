@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/di/dependency_injection.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
@@ -55,13 +57,34 @@ class _ChatsViewState extends State<ChatsView> {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final user = users[index];
+              final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+              return StreamBuilder<DocumentSnapshot>(
+                stream:
+                    _chatProvider.getChatRoomStream(currentUserId, user["uid"]),
+                builder: (context, chatSnapshot) {
+                  String displayMessage = "Tap to start chatting";
+                  String displayTime = "";
 
-              return ChatCard(
-                otherUserId: user["uid"],
-                username: user["username"] ?? "Unknown",
-                lastMessage: "Tap to start chatting",
-                time: "",
-                pfp: user["pfp"],
+                  if (chatSnapshot.hasData && chatSnapshot.data!.exists) {
+                    final chatData =
+                        chatSnapshot.data!.data() as Map<String, dynamic>;
+                    displayMessage = chatData["lastMessage"] ?? displayMessage;
+
+                    if (chatData["lastTimestamp"] != null) {
+                      final timestamp = chatData["lastTimestamp"] as Timestamp;
+                      final dateTime = timestamp.toDate();
+                      displayTime =
+                          "${dateTime.hour}:${dateTime.minute.toString()}";
+                    }
+                  }
+
+                  return ChatCard(
+                    otherUserId: user["uid"],
+                    username: user["username"] ?? "Unknown",
+                    lastMessage: displayMessage,
+                    time: displayTime,
+                  );
+                },
               );
             },
           );
