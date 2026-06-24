@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/di/dependency_injection.dart';
+import 'package:sky_cord/core/services/user_status_service.dart';
 import 'package:sky_cord/core/theme/app_colors.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
 import 'package:sky_cord/features/chat/presentation/provider/chat_provider.dart';
@@ -23,11 +24,25 @@ class _ChatViewState extends State<ChatView> {
   final TextEditingController _messageController = TextEditingController();
   final ChatProvider _chatProvider = getIt<ChatProvider>();
   final String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  bool _isTyping = false;
+
+  void _onTextChanged(String text) {
+    if (text.trim().isNotEmpty && !_isTyping) {
+      _isTyping = true;
+      UserStatusService.instance.setTyping(currentUserId, true);
+    } else if (text.trim().isEmpty && _isTyping) {
+      _isTyping = false;
+      UserStatusService.instance.setTyping(currentUserId, false);
+    }
+  }
 
   void _sendMessage() async {
     if (_messageController.text.trim().isNotEmpty) {
       final text = _messageController.text;
       _messageController.clear();
+
+      _isTyping = false;
+      UserStatusService.instance.setTyping(currentUserId, false);
 
       await _chatProvider.sendMessage(widget.otherUserId, text);
     }
@@ -36,6 +51,7 @@ class _ChatViewState extends State<ChatView> {
   @override
   void dispose() {
     _messageController.dispose();
+    UserStatusService.instance.setTyping(currentUserId, false);
     super.dispose();
   }
 
@@ -90,7 +106,11 @@ class _ChatViewState extends State<ChatView> {
               },
             ),
           ),
-          ChatInput(controller: _messageController, onSend: _sendMessage),
+          ChatInput(
+            controller: _messageController,
+            onSend: _sendMessage,
+            onTextChanged: _onTextChanged,
+          ),
         ],
       ),
     );

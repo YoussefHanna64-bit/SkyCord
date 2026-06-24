@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sky_cord/core/services/user_status_service.dart';
 import 'package:sky_cord/core/utils/result.dart';
 import 'package:sky_cord/features/auth/domain/usecases/login_use_case.dart';
 import 'package:sky_cord/features/auth/domain/usecases/register_use_case.dart';
@@ -15,6 +16,7 @@ class AppAuthProvider {
       User? user = await _loginUseCase(email, password);
       if (user != null) {
         debugPrint("user data ${user.uid}");
+        UserStatusService.instance.init(user.uid);
         return Result.success(data: user);
       } else {
         return Result.failure(message: "Something went wrong, Try again");
@@ -31,6 +33,7 @@ class AppAuthProvider {
       User? user = await _registerUseCase(username, email, password);
       if (user != null) {
         debugPrint("user data ${user.uid}");
+        UserStatusService.instance.init(user.uid);
         return Result.success(data: user);
       } else {
         return Result.failure(message: "Something went wrong, Try again");

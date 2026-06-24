@@ -6,8 +6,13 @@ import 'package:sky_cord/core/theme/app_text_styles.dart';
 class ChatInput extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSend;
+  final Function(String) onTextChanged;
 
-  const ChatInput({super.key, required this.controller, required this.onSend});
+  const ChatInput(
+      {super.key,
+      required this.controller,
+      required this.onSend,
+      required this.onTextChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +26,7 @@ class ChatInput extends StatelessWidget {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               controller: controller,
+              onChanged: onTextChanged,
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend(),
               decoration: InputDecoration(
