@@ -14,10 +14,34 @@ class AppTextStyles {
     color: AppColors.whiteColor,
   );
 
+  static const TextStyle medium12Primary = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.primary,
+  );
+
+  static const TextStyle medium12Grey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.greyColor,
+  );
+
   static const TextStyle medium14Grey = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.greyColor,
+  );
+
+  static const TextStyle medium12Green = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.greenColor,
+  );
+
+  static const TextStyle medium14Green = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.greenColor,
   );
 
   static const TextStyle bold14Primary = TextStyle(

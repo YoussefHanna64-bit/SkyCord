@@ -83,6 +83,7 @@ class _ChatsViewState extends State<ChatsView> {
                     username: user["username"] ?? "Unknown",
                     lastMessage: displayMessage,
                     time: displayTime,
+                    pfp: user["pfp"],
                   );
                 },
               );

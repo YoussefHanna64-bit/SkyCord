@@ -3,18 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_cord/core/di/dependency_injection.dart';
 import 'package:sky_cord/core/services/user_status_service.dart';
-import 'package:sky_cord/core/theme/app_colors.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
 import 'package:sky_cord/features/chat/presentation/provider/chat_provider.dart';
+import 'package:sky_cord/features/chat/presentation/widgets/chat_app_bar.dart';
 import 'package:sky_cord/features/chat/presentation/widgets/chat_bubble.dart';
 import 'package:sky_cord/features/chat/presentation/widgets/chat_input.dart';
 
 class ChatView extends StatefulWidget {
   final String otherUserId;
   final String username;
+  final String? pfp;
 
   const ChatView(
-      {super.key, required this.otherUserId, required this.username});
+      {super.key, required this.otherUserId, required this.username, this.pfp});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -57,16 +58,9 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    final onSurface = Theme.of(context).colorScheme.onSurface;
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.username,
-            style: AppTextStyles.bold20Grey.copyWith(color: onSurface)),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.greyColor),
-      ),
+      appBar: ChatAppBar(
+          username: widget.username, otherUserId: widget.otherUserId, pfp: widget.pfp),
       body: Column(
         children: [
           Expanded(

@@ -4,6 +4,7 @@ import 'package:sky_cord/core/services/user_status_service.dart';
 import 'package:sky_cord/core/theme/app_colors.dart';
 import 'package:sky_cord/core/theme/app_text_styles.dart';
 import 'package:sky_cord/features/chat/presentation/views/chat_view.dart';
+import 'package:sky_cord/features/chat/presentation/widgets/chat_avatar.dart';
 
 class ChatCard extends StatelessWidget {
   final String otherUserId;
@@ -23,6 +24,7 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
+
     return StreamBuilder<DatabaseEvent>(
       stream: UserStatusService.instance.getUserStatus(otherUserId),
       builder: (context, snapshot) {
@@ -44,6 +46,7 @@ class ChatCard extends StatelessWidget {
                 builder: (context) => ChatView(
                   otherUserId: otherUserId,
                   username: username,
+                  pfp: pfp,
                 ),
               ),
             );
@@ -54,17 +57,10 @@ class ChatCard extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    CircleAvatar(
+                    ChatAvatar(
+                      username: username,
+                      pfp: pfp,
                       radius: 28,
-                      backgroundColor: AppColors.primary.withAlpha(51),
-                      backgroundImage: pfp != null ? NetworkImage(pfp!) : null,
-                      child: pfp == null
-                          ? Text(
-                              username[0].toUpperCase(),
-                              style: AppTextStyles.bold16White
-                                  .copyWith(color: onSurface),
-                            )
-                          : null,
                     ),
                     if (isOnline)
                       Positioned(
@@ -99,11 +95,7 @@ class ChatCard extends StatelessWidget {
                       if (isTyping)
                         const Text(
                           "Typing...",
-                          style: TextStyle(
-                            color: AppColors.greenColor,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 13,
-                          ),
+                          style: AppTextStyles.medium14Green,
                         )
                       else
                         Text(
