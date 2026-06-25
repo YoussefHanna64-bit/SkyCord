@@ -74,7 +74,7 @@ class _ChatsViewState extends State<ChatsView> {
                       final timestamp = chatData["lastTimestamp"] as Timestamp;
                       final dateTime = timestamp.toDate();
                       displayTime =
-                          "${dateTime.hour}:${dateTime.minute.toString()}";
+                          "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, "0")} ${dateTime.day}/${dateTime.month}/${dateTime.year}";
                     }
                   }
 

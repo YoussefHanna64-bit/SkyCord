@@ -13,6 +13,19 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar(
       {super.key, required this.username, required this.otherUserId, this.pfp});
 
+  String _formatLastSeen(int? timestamp) {
+    if (timestamp == null) return "Offline";
+
+    final DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+
+    int hour = date.hour % 12;
+    if (hour == 0) hour = 12;
+    String minute = date.minute.toString().padLeft(2, "0");
+    String ampm = date.hour >= 12 ? "PM" : "AM";
+
+    return "Last seen at $hour:$minute $ampm on ${date.day}/${date.month}/${date.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     final onSurface = Theme.of(context).colorScheme.onSurface;
@@ -42,6 +55,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                 builder: (context, snapshot) {
                   bool isOnline = false;
                   bool isTyping = false;
+                  int? lastSeen;
 
                   if (snapshot.hasData &&
                       snapshot.data!.snapshot.value != null) {
@@ -49,6 +63,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                         snapshot.data!.snapshot.value as Map);
                     isOnline = data["online"] ?? false;
                     isTyping = data["typing"] ?? false;
+                    lastSeen = data["last_seen"];
                   }
 
                   if (isTyping) {
@@ -63,7 +78,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                     );
                   } else {
                     return Text(
-                      "Offline",
+                      _formatLastSeen(lastSeen),
                       style: AppTextStyles.medium12Grey,
                     );
                   }
